@@ -63,7 +63,7 @@
       "name": "Microsoft Earphones",
       "price": 80,
       "category": "Headphones",
-      "description": "The Microsoft new earphones with high quality",
+      "description": "The Microsoft new headphones with high quality",
       "image": "/images/Microsoft_Earphones.png"
     },
     {
@@ -99,10 +99,10 @@
       "id": 5
     },
     {
-      "name": "Moshe",
-      "price": 43523,
-      "category": "test Cat",
-      "description": "test Desc",
+      "name": "test",
+      "price": 13,
+      "category": "Headphones",
+      "description": "324235e",
       "image": "/images/Microsoft_Headphones.png",
       "id": 6
     }

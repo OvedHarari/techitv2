@@ -1,52 +1,62 @@
-import { FunctionComponent, useEffect } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { addNewProduct } from "../services/productsService";
+import { getProductById, updateProduct } from "../services/productsService";
 import Product from "../interfaces/Product";
 import { successMsg } from "../services/feedbacksService";
-import { useNavigate } from "react-router-dom";
 
-interface AddProductProps {
+interface UpdateProductProps {
   onHide: Function;
   render: Function;
+  productId: number;
 }
 
-const AddProduct: FunctionComponent<AddProductProps> = ({ onHide, render }) => {
-  let navigate = useNavigate();
+const UpdateProduct: FunctionComponent<UpdateProductProps> = ({
+  onHide,
+  render,
+  productId,
+}) => {
+  let [product, setProduct] = useState<Product>({
+    name: "",
+    price: 0,
+    category: "",
+    description: "",
+    image: "",
+  });
   let formik = useFormik({
     initialValues: {
-      name: "",
-      price: 0,
-      category: "",
-      description: "",
-      image: "/images/...",
+      name: product.name,
+      price: product.price,
+      category: product.category,
+      description: product.description,
+      image: product.image,
     },
     validationSchema: yup.object({
       name: yup.string().required().min(2),
       price: yup.number().required().min(1),
       category: yup.string().required().min(2),
-      description: yup.string().required().min(2).max(60),
+      description: yup.string().required().min(2),
       image: yup.string().required().min(2),
     }),
-    onSubmit: (values: Product) => {
-      addNewProduct(values);
-      render();
-      onHide();
-      //   resetForm();
-      navigate("/products");
-
-      successMsg("The product was added succesfulley!");
+    enableReinitialize: true,
+    onSubmit: (values) => {
+      updateProduct(values, productId).then((res) => {
+        render();
+        onHide();
+        successMsg("The product was updated succesfulley!");
+      });
     },
   });
 
   useEffect(() => {
-    formik.setFieldValue("price", "");
+    getProductById(productId)
+      .then((res) => setProduct(res.data))
+      .catch((err) => console.log(err));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <div className="container ">
       <form className="form-floating mb-3 mt-3" onSubmit={formik.handleSubmit}>
-        {/* <h3 className="display-3 mb-5 mt-5">New Product</h3> */}
         <div className="form-floating mb-3 shadow">
           <input
             type="text"
@@ -95,22 +105,7 @@ const AddProduct: FunctionComponent<AddProductProps> = ({ onHide, render }) => {
             <p className="text-danger">{formik.errors.category}</p>
           )}
         </div>
-        {/* <div className="form-floating mb-3 shadow">
-          <input
-            type="text"
-            className="form-control"
-            id="floatingDescription"
-            placeholder="Product Description"
-            name="description"
-            onChange={formik.handleChange}
-            value={formik.values.description}
-            onBlur={formik.handleBlur}
-          ></input>
-          <label htmlFor="floatingDescription">Description</label>
-          {formik.touched.description && formik.errors.description && (
-            <p className="text-danger">{formik.errors.description}</p>
-          )}
-        </div> */}
+
         <div className="form-floating mb-3 shadow">
           <textarea
             className="form-control mb-3"
@@ -121,7 +116,9 @@ const AddProduct: FunctionComponent<AddProductProps> = ({ onHide, render }) => {
             onChange={formik.handleChange}
             value={formik.values.description}
             onBlur={formik.handleBlur}
-          ></textarea>
+          >
+            {product.description}
+          </textarea>
           <label htmlFor="floatingDescription">Product description</label>
           {formik.touched.description && formik.errors.description && (
             <p className="text-danger">{formik.errors.description}</p>
@@ -152,4 +149,4 @@ const AddProduct: FunctionComponent<AddProductProps> = ({ onHide, render }) => {
   );
 };
 
-export default AddProduct;
+export default UpdateProduct;

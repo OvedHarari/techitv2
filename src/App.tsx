@@ -10,7 +10,7 @@ import { ToastContainer } from "react-toastify";
 import Profile from "./components/Profile";
 import Products from "./components/Products";
 import Navbar from "./components/Navbar";
-import AddProduct from "./components/AddProduct";
+// import AddProduct from "./components/AddProduct";
 
 function App() {
   // let [isLoggedIn, setIsLoggedIn] = useState<boolean>(

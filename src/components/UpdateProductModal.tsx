@@ -1,17 +1,21 @@
 import { FunctionComponent } from "react";
 import { Modal } from "react-bootstrap";
-import AddProduct from "./AddProduct";
+import UpdateProduct from "./UpdateProduct";
 
-interface NewProductModalProps {
+interface UpdateProductModalProps {
   show: boolean;
   onHide: Function;
   render: Function;
+  productId: number;
+  productName: string;
 }
 
-const NewProductModal: FunctionComponent<NewProductModalProps> = ({
+const UpdateProductModal: FunctionComponent<UpdateProductModalProps> = ({
   show,
   onHide,
   render,
+  productId,
+  productName,
 }) => {
   return (
     <div
@@ -28,11 +32,15 @@ const NewProductModal: FunctionComponent<NewProductModalProps> = ({
         centered
       >
         <Modal.Header closeButton>
-          <Modal.Title className="display-3">New Product</Modal.Title>
+          <Modal.Title className="display-3">Update Product</Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
-          <AddProduct onHide={onHide} render={render} />
+          <UpdateProduct
+            onHide={onHide}
+            render={render}
+            productId={productId}
+          />
         </Modal.Body>
 
         {/* <Modal.Footer>
@@ -44,4 +52,4 @@ const NewProductModal: FunctionComponent<NewProductModalProps> = ({
   );
 };
 
-export default NewProductModal;
+export default UpdateProductModal;

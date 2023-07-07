@@ -19,7 +19,7 @@ const Login: FunctionComponent<LoginProps> = ({ setUserInfo }) => {
       password: yup.string().required().min(8),
     }),
     onSubmit: (values) => {
-      console.log(values);
+      //   console.log(values);
 
       userValidation(values)
         .then((res) => {

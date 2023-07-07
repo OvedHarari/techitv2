@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { getProducts } from "../services/productsService";
 import Product from "../interfaces/Product";
 import NewProductModal from "./NewProductModal";
+import DeleteProductModal from "./DeleteProductModal";
+import UpdateProductModal from "./UpdateProductModal";
 
 interface ProductsProps {
   userInfo: any;
@@ -11,13 +13,17 @@ interface ProductsProps {
 const Products: FunctionComponent<ProductsProps> = ({ userInfo }) => {
   let [dataUpdated, setDataUpdated] = useState<boolean>(false);
   let [openNewProductModal, setOpenNewProductModal] = useState<boolean>(false);
+  let [openUpdateProductModal, setOpenUpdateProductModal] =
+    useState<boolean>(false);
+  let [openDeleteProductModal, setOpenDeleteProductModal] =
+    useState<boolean>(false);
   let [products, SetProducts] = useState<Product[]>([]);
+  let [productId, setProductId] = useState<number>(0);
+  let [productName, setProductName] = useState<string>("");
   useEffect(() => {
     getProducts()
       .then((res) => {
         SetProducts(res.data);
-        console.log(dataUpdated);
-        console.log(res.data);
       })
       .catch((err) => console.log(err));
   }, [dataUpdated]);
@@ -27,7 +33,7 @@ const Products: FunctionComponent<ProductsProps> = ({ userInfo }) => {
     <>
       <div>
         <h1 className="display-3">Products</h1>
-        <div className="text-start mb-2">
+        <div className="text-end m-4 mb-2">
           {userInfo.isAdmin && (
             <Link
               to=""
@@ -36,9 +42,6 @@ const Products: FunctionComponent<ProductsProps> = ({ userInfo }) => {
             >
               <i className="fa-solid fa-plus"></i> Add Product
             </Link>
-            // <Link to="/add-product" className="btn btn-success ms-2">
-            //   <i className="fa-solid fa-plus"></i> Add Product
-            // </Link>
           )}
         </div>
         {products.length ? (
@@ -68,10 +71,26 @@ const Products: FunctionComponent<ProductsProps> = ({ userInfo }) => {
                     </Link>
                     {userInfo.isAdmin && (
                       <>
-                        <Link to="" className="btn btn-warning mx-2">
+                        <Link
+                          to=""
+                          className="btn btn-warning mx-2"
+                          onClick={() => {
+                            setProductId(product.id as number);
+                            setProductName(product.name);
+                            setOpenUpdateProductModal(true);
+                          }}
+                        >
                           <i className="fa-solid fa-pen-to-square"></i>
                         </Link>
-                        <Link to="" className="btn btn-danger">
+                        <Link
+                          to=""
+                          className="btn btn-danger"
+                          onClick={() => {
+                            setProductId(product.id as number);
+                            setProductName(product.name);
+                            setOpenDeleteProductModal(true);
+                          }}
+                        >
                           <i className="fa-solid fa-trash"></i>
                         </Link>
                       </>
@@ -89,6 +108,20 @@ const Products: FunctionComponent<ProductsProps> = ({ userInfo }) => {
           show={openNewProductModal}
           onHide={() => setOpenNewProductModal(false)}
           render={render}
+        />
+        <DeleteProductModal
+          show={openDeleteProductModal}
+          onHide={() => setOpenDeleteProductModal(false)}
+          render={render}
+          productId={productId}
+          productName={productName}
+        />
+        <UpdateProductModal
+          show={openUpdateProductModal}
+          onHide={() => setOpenUpdateProductModal(false)}
+          render={render}
+          productId={productId}
+          productName={productName}
         />
       </div>
     </>
