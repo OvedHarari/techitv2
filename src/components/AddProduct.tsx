@@ -32,9 +32,7 @@ const AddProduct: FunctionComponent<AddProductProps> = ({ onHide, render }) => {
       addNewProduct(values);
       render();
       onHide();
-      //   resetForm();
       navigate("/products");
-
       successMsg("The product was added succesfulley!");
     },
   });
@@ -46,7 +44,6 @@ const AddProduct: FunctionComponent<AddProductProps> = ({ onHide, render }) => {
   return (
     <div className="container ">
       <form className="form-floating mb-3 mt-3" onSubmit={formik.handleSubmit}>
-        {/* <h3 className="display-3 mb-5 mt-5">New Product</h3> */}
         <div className="form-floating mb-3 shadow">
           <input
             type="text"
@@ -95,22 +92,6 @@ const AddProduct: FunctionComponent<AddProductProps> = ({ onHide, render }) => {
             <p className="text-danger">{formik.errors.category}</p>
           )}
         </div>
-        {/* <div className="form-floating mb-3 shadow">
-          <input
-            type="text"
-            className="form-control"
-            id="floatingDescription"
-            placeholder="Product Description"
-            name="description"
-            onChange={formik.handleChange}
-            value={formik.values.description}
-            onBlur={formik.handleBlur}
-          ></input>
-          <label htmlFor="floatingDescription">Description</label>
-          {formik.touched.description && formik.errors.description && (
-            <p className="text-danger">{formik.errors.description}</p>
-          )}
-        </div> */}
         <div className="form-floating mb-3 shadow">
           <textarea
             className="form-control mb-3"
@@ -127,7 +108,6 @@ const AddProduct: FunctionComponent<AddProductProps> = ({ onHide, render }) => {
             <p className="text-danger">{formik.errors.description}</p>
           )}
         </div>
-
         <div className="form-floating mb-3 shadow">
           <input
             type="text"
@@ -144,7 +124,11 @@ const AddProduct: FunctionComponent<AddProductProps> = ({ onHide, render }) => {
             <p className="text-danger">{formik.errors.image}</p>
           )}
         </div>
-        <button className="btn btn-success mt-3 w-100" type="submit">
+        <button
+          className="btn btn-success mt-3 w-100"
+          type="submit"
+          disabled={!formik.isValid || !formik.dirty}
+        >
           <i className="fa-solid fa-plus"></i> Add Product
         </button>
       </form>

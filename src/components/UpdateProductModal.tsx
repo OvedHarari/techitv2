@@ -31,7 +31,7 @@ const UpdateProductModal: FunctionComponent<UpdateProductModalProps> = ({
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
-        <Modal.Header closeButton>
+        <Modal.Header>
           <Modal.Title className="display-3">Update Product</Modal.Title>
         </Modal.Header>
 

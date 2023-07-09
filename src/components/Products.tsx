@@ -50,7 +50,7 @@ const Products: FunctionComponent<ProductsProps> = ({ userInfo }) => {
               {products.map((product: Product) => (
                 <div
                   key={product.id}
-                  className="card col-md-4 mx-2 mt-2"
+                  className="card col-md-4 mx-2 mt-3"
                   style={{ width: "18rem" }}
                 >
                   <img

@@ -100,7 +100,7 @@
     },
     {
       "name": "test",
-      "price": 13,
+      "price": 13000,
       "category": "Headphones",
       "description": "324235e",
       "image": "/images/Microsoft_Headphones.png",

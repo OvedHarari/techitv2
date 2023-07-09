@@ -141,10 +141,19 @@ const UpdateProduct: FunctionComponent<UpdateProductProps> = ({
             <p className="text-danger">{formik.errors.image}</p>
           )}
         </div>
-        <button className="btn btn-success mt-3 w-100" type="submit">
+        <button
+          className="btn btn-success mt-3 w-100"
+          type="submit"
+          disabled={!formik.isValid || !formik.dirty}
+        >
           <i className="fa-solid fa-plus"></i> Add Product
         </button>
       </form>
+      <div className="text-end mb-2">
+        <button className="btn btn-danger mt-1 mx-2" onClick={() => onHide()}>
+          <i className="fa-solid fa-xmark"></i> Discard changes
+        </button>
+      </div>
     </div>
   );
 };
