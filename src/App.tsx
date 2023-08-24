@@ -10,6 +10,7 @@ import { ToastContainer } from "react-toastify";
 import Profile from "./components/Profile";
 import Products from "./components/Products";
 import Navbar from "./components/Navbar";
+import Cart from "./components/Cart";
 // import AddProduct from "./components/AddProduct";
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
           <Route path="/" element={<Login setUserInfo={setUserInfo} />} />
           <Route path="/home" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/carts" element={<Cart />} />
           <Route path="/products" element={<Products userInfo={userInfo} />} />
           {/* <Route path="/add-product" element={<AddProduct />} /> */}
           <Route

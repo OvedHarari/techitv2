@@ -15,11 +15,13 @@ const AddProduct: FunctionComponent<AddProductProps> = ({ onHide, render }) => {
   let navigate = useNavigate();
   let formik = useFormik({
     initialValues: {
+      _id: "",
       name: "",
       price: 0,
       category: "",
       description: "",
       image: "/images/...",
+      quantity: 0
     },
     validationSchema: yup.object({
       name: yup.string().required().min(2),
@@ -29,11 +31,14 @@ const AddProduct: FunctionComponent<AddProductProps> = ({ onHide, render }) => {
       image: yup.string().required().min(2),
     }),
     onSubmit: (values: Product) => {
-      addNewProduct(values);
-      render();
-      onHide();
-      navigate("/products");
-      successMsg("The product was added succesfulley!");
+      addNewProduct(values)
+        .then((res) => {
+          render();
+          onHide();
+          navigate("/products");
+          successMsg("The product was added succesfulley!");
+        })
+        .catch((err) => console.log(err));
     },
   });
 

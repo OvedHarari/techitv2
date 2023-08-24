@@ -8,7 +8,7 @@ import { successMsg } from "../services/feedbacksService";
 interface UpdateProductProps {
   onHide: Function;
   render: Function;
-  productId: number;
+  productId: string;
 }
 
 const UpdateProduct: FunctionComponent<UpdateProductProps> = ({
@@ -37,14 +37,17 @@ const UpdateProduct: FunctionComponent<UpdateProductProps> = ({
       category: yup.string().required().min(2),
       description: yup.string().required().min(2),
       image: yup.string().required().min(2),
+
     }),
     enableReinitialize: true,
     onSubmit: (values) => {
-      updateProduct(values, productId).then((res) => {
-        render();
-        onHide();
-        successMsg("The product was updated succesfulley!");
-      });
+      updateProduct(values, productId)
+        .then((res) => {
+          render();
+          onHide();
+          successMsg("The product was updated succesfulley!");
+        })
+        .catch((err) => console.log(err));
     },
   });
 
@@ -52,8 +55,7 @@ const UpdateProduct: FunctionComponent<UpdateProductProps> = ({
     getProductById(productId)
       .then((res) => setProduct(res.data))
       .catch((err) => console.log(err));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [productId]);
   return (
     <div className="container ">
       <form className="form-floating mb-3 mt-3" onSubmit={formik.handleSubmit}>

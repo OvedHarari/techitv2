@@ -1,19 +1,15 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import User from "../interfaces/User";
-import { getUserByEmail } from "../services/usersService";
+import { getUserDetails } from "../services/usersService";
 
-interface ProfileProps {}
+interface ProfileProps { }
 
 const Profile: FunctionComponent<ProfileProps> = () => {
   let [userInfo, setUserInfo] = useState<User>();
   useEffect(() => {
-    getUserByEmail(
-      JSON.parse(sessionStorage.getItem("userInfo") as string).email
-    )
+    getUserDetails()
       .then((res) => {
-        if (res.data.length) {
-          setUserInfo(res.data[0]);
-        }
+        setUserInfo(res.data);
       })
       .catch((err) => console.log(err));
   }, []);

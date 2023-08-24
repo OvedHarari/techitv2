@@ -1,9 +1,9 @@
 import { useFormik } from "formik";
 import { FunctionComponent } from "react";
 import * as yup from "yup";
-import { userValidation } from "../services/usersService";
+import { getTokenDetails, userValidation } from "../services/usersService";
 import { Link, useNavigate } from "react-router-dom";
-import { errorMsg, successMsg } from "../services/feedbacksService";
+import { successMsg } from "../services/feedbacksService";
 // import { errorMsg } from "../services/feedbacksService";
 
 interface LoginProps {
@@ -23,20 +23,27 @@ const Login: FunctionComponent<LoginProps> = ({ setUserInfo }) => {
 
       userValidation(values)
         .then((res) => {
-          if (res.data.length) {
-            sessionStorage.setItem(
-              "userInfo",
-              JSON.stringify({
-                email: values.email,
-                isAdmin: res.data[0].isAdmin,
-              })
-            );
-            setUserInfo(
-              JSON.parse(sessionStorage.getItem("userInfo") as string)
-            );
-            successMsg(`You're logged in as ${values.email}`);
-            navigate("home");
-          } else errorMsg("Wrong Email or Password");
+
+          sessionStorage.setItem(
+            "token",
+            JSON.stringify({
+              token: res.data
+            })
+          );
+          sessionStorage.setItem(
+            "userInfo",
+            JSON.stringify({
+              email: (getTokenDetails() as any).email,
+              isAdmin: (getTokenDetails() as any).isAdmin,
+              userId: (getTokenDetails() as any)._id,
+            })
+          );
+          setUserInfo(
+            JSON.parse(sessionStorage.getItem("userInfo") as string)
+          );
+          successMsg(`You're logged in as ${values.email}`);
+          navigate("home");
+
         })
         .catch((err) => console.log(err));
     },

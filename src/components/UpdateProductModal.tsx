@@ -6,7 +6,7 @@ interface UpdateProductModalProps {
   show: boolean;
   onHide: Function;
   render: Function;
-  productId: number;
+  productId: string;
   productName: string;
 }
 

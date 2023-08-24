@@ -18,43 +18,15 @@
       "name": "user 2",
       "email": "User2@gmail.com",
       "password": "12345678",
+      "isAdmin": false,
       "id": 3
     },
     {
       "name": "test",
       "email": "itsikh100@gmail.com",
       "password": "12345678",
+      "isAdmin": false,
       "id": 4
-    },
-    {
-      "name": "Moshe",
-      "email": "itsikh100@gmail.com",
-      "password": "12345678",
-      "id": 5
-    },
-    {
-      "name": "Moshe",
-      "email": "itsikh100@gmail.com",
-      "password": "12345678",
-      "id": 6
-    },
-    {
-      "name": "Moshe",
-      "email": "itsikh101@gmail.com",
-      "password": "12345678",
-      "id": 7
-    },
-    {
-      "name": "test",
-      "email": "dfgdfg@sdfe.com",
-      "password": "12345678",
-      "id": 8
-    },
-    {
-      "name": "test",
-      "email": "dfgdfg@sdfe.com",
-      "password": "12345678",
-      "id": 9
     }
   ],
   "products": [
@@ -78,7 +50,7 @@
       "name": "Microsoft Headphones",
       "price": 1000,
       "category": "Headphones",
-      "description": "The Microsoft new headphones with high quality",
+      "description": "The Microsoft new headphones with high quality.",
       "image": "https://img.zap.co.il/pics/3/6/7/3/55993763c.gif",
       "id": 3
     },
@@ -105,6 +77,51 @@
       "description": "324235e",
       "image": "/images/Microsoft_Headphones.png",
       "id": 6
+    }
+  ],
+  "carts": [
+    {
+      "userId": 1,
+      "id": 1,
+      "active": true,
+      "products": [
+        {
+          "id": 2,
+          "name": "Microsoft Headphones",
+          "price": 200,
+          "category": "Headphones",
+          "description": "The Microsoft new headphones with high quality",
+          "image": "/images/Microsoft_Headphones.png",
+          "quantity": 2
+        },
+        {
+          "id": 1,
+          "name": "Microsoft Earphones",
+          "price": 80,
+          "category": "Headphones",
+          "description": "The Microsoft new headphones with high quality",
+          "image": "/images/Microsoft_Earphones.png",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "userId": 2,
+      "products": [],
+      "active": true,
+      "id": 2
+    },
+    {
+      "userId": 3,
+      "products": [],
+      "active": true,
+      "id": 2
+    },
+    {
+      "userId": 4,
+      "products": [],
+      "active": true,
+      "id": 2
     }
   ]
 }

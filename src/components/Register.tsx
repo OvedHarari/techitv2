@@ -1,9 +1,10 @@
 import { FunctionComponent } from "react";
-import { addUser } from "../services/usersService";
+import { addUser, getTokenDetails } from "../services/usersService";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { successMsg } from "../services/feedbacksService";
+// import { createCart } from "../services/cartService";
 
 interface RegisterProps {
   setUserInfo: Function;
@@ -23,14 +24,22 @@ const Register: FunctionComponent<RegisterProps> = ({ setUserInfo }) => {
         .then((res) => {
           navigate("/home");
           sessionStorage.setItem(
+            "token",
+            JSON.stringify({
+              token: res.data
+            })
+          );
+          sessionStorage.setItem(
             "userInfo",
             JSON.stringify({
-              email: res.data.email,
-              isAdmin: res.data.isAdmin,
+              email: (getTokenDetails() as any).email,
+              isAdmin: (getTokenDetails() as any).isAdmin,
+              userId: (getTokenDetails() as any)._id,
             })
           );
           setUserInfo(JSON.parse(sessionStorage.getItem("userInfo") as string));
           successMsg(`${values.email} wes registered and logged in`);
+          // createCart(res.data.id);
         })
         .catch((err) => console.log(err));
     },

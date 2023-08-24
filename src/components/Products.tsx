@@ -5,6 +5,8 @@ import Product from "../interfaces/Product";
 import NewProductModal from "./NewProductModal";
 import DeleteProductModal from "./DeleteProductModal";
 import UpdateProductModal from "./UpdateProductModal";
+import { addToCart, getCartById } from "../services/cartService";
+import { successMsg } from "../services/feedbacksService";
 
 interface ProductsProps {
   userInfo: any;
@@ -18,17 +20,48 @@ const Products: FunctionComponent<ProductsProps> = ({ userInfo }) => {
   let [openDeleteProductModal, setOpenDeleteProductModal] =
     useState<boolean>(false);
   let [products, SetProducts] = useState<Product[]>([]);
-  let [productId, setProductId] = useState<number>(0);
+  let [productId, setProductId] = useState<string>("");
   let [productName, setProductName] = useState<string>("");
   useEffect(() => {
     getProducts()
-      .then((res) => {
-        SetProducts(res.data);
-      })
+      .then((res) => SetProducts(res.data))
       .catch((err) => console.log(err));
   }, [dataUpdated]);
   let render = () => setDataUpdated(!dataUpdated);
+  let handleAddToCart = (product: Product
+    // , quantity: number
+  ) => {
 
+    getCartById().then((res) => {
+      // console.log(res.data)
+      // let inCart = res.data.find((id: any) => id._id = product._id);
+      // if (!inCart) {
+      addToCart({
+        ...product
+        // , quantity: quantity 
+      }).then((res) =>
+        successMsg(`The product: ${productName} was added to cart`)
+      )
+        .catch((err) => console.log(err));
+      // } else {
+      //   console.log(inCart);
+      //   inCart.quantity++
+
+      //   addToCart({
+      //     ...product
+      //     // , quantity: quantity 
+      //   }).then((res) =>
+      //     successMsg(`The product: ${productName} was added to cart`)
+      //   )
+      //     .catch((err) => console.log(err)
+
+
+    }).catch((err) => console.log((err)))
+
+
+
+
+  };
   return (
     <>
       <div>
@@ -49,7 +82,7 @@ const Products: FunctionComponent<ProductsProps> = ({ userInfo }) => {
             <div className="row">
               {products.map((product: Product) => (
                 <div
-                  key={product.id}
+                  key={product._id}
                   className="card col-md-4 mx-2 mt-3"
                   style={{ width: "18rem" }}
                 >
@@ -66,7 +99,13 @@ const Products: FunctionComponent<ProductsProps> = ({ userInfo }) => {
                     <h5 className="card-title">{product.name}</h5>
                     <p className="card-text">{product.description}</p>
                     <p className="card-text text-success">{product.price} ₪</p>
-                    <Link to="#" className="btn btn-primary">
+                    <Link
+                      to="#"
+                      className="btn btn-primary"
+                      onClick={() => handleAddToCart(product
+                        // , (product.quantity) as number + 1
+                      )}
+                    >
                       <i className="fa-solid fa-cart-shopping"></i> Add to Cart
                     </Link>
                     {userInfo.isAdmin && (
@@ -75,7 +114,7 @@ const Products: FunctionComponent<ProductsProps> = ({ userInfo }) => {
                           to=""
                           className="btn btn-warning mx-2"
                           onClick={() => {
-                            setProductId(product.id as number);
+                            setProductId(product._id as string);
                             setProductName(product.name);
                             setOpenUpdateProductModal(true);
                           }}
@@ -86,7 +125,7 @@ const Products: FunctionComponent<ProductsProps> = ({ userInfo }) => {
                           to=""
                           className="btn btn-danger"
                           onClick={() => {
-                            setProductId(product.id as number);
+                            setProductId(product._id as string);
                             setProductName(product.name);
                             setOpenDeleteProductModal(true);
                           }}
